@@ -5,7 +5,7 @@ import {AuthService} from "../service/auth.service";
 @Component({
   selector: 'app-signup',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css']
+  styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent {
   signupForm: FormGroup;
