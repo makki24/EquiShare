@@ -18,4 +18,8 @@ export class PortfolioService {
     return this.http.post<Portfolio>(`${this.baseUrl}/portfolios/create`, portfolio)
   }
 
+  deletePortfolio(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/portfolios/${id}`);
+  }
+
 }

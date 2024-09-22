@@ -8,18 +8,20 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import {AuthInterceptor} from "./interceptor/AuthInterceptor";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ModalModule} from "ngx-bootstrap/modal";
+import {SharedModule} from "./shared/shared.module";
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    AuthModule,
-    BrowserAnimationsModule,
-    ModalModule.forRoot()
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        AuthModule,
+        BrowserAnimationsModule,
+        ModalModule.forRoot(),
+        SharedModule
+    ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],

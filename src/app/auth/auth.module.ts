@@ -6,7 +6,6 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import {NgIf} from "@angular/common";
 import {AuthRoutingModule} from "./auth-routing.module";
-import {AuthService} from "./service/auth.service";
 
 @NgModule({ declarations: [
         LoginComponent,
@@ -17,5 +16,5 @@ import {AuthService} from "./service/auth.service";
         LoginComponent
     ], imports: [ReactiveFormsModule,
         NgIf,
-        AuthRoutingModule], providers: [provideHttpClient(withInterceptorsFromDi()), AuthService] })
+        AuthRoutingModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AuthModule { }

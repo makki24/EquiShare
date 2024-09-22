@@ -24,7 +24,6 @@ export class LoginComponent {
       const { username, password } = this.loginForm.value;
       this.authService.login(username, password).subscribe({
         next: (response) => {
-          localStorage.setItem('authToken', response.token);
           this.router.navigate(['/dashboard'])
         },
         error: (err) => {
