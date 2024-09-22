@@ -1,0 +1,33 @@
+<div>
+  <button class="btn btn-primary mb-3" (click)="openPortfolioModal(portfolioModal)">Add Portfolio</button>
+</div>
+<div class="scrollable-list">
+  <div *ngFor="let portfolio of portfolios" class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ portfolio.displayName }}</h5>
+      <p class="card-text">Total Value: ₹{{ portfolio.portfolioCharge | number:'1.2-2' }}</p>
+    </div>
+  </div>
+</div>
+
+<ng-template #portfolioModal>
+  <div class="modal-header">
+    <h4 class="modal-title">Add Portfolio</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="portfolioForm" (ngSubmit)="onSubmitPortfolio()">
+      <div class="form-group">
+        <label for="portfolioName">Portfolio Name</label>
+        <input id="portfolioName" class="form-control" formControlName="displayName" required>
+      </div>
+      <div class="form-group">
+        <label for="totalCharge">Total charge</label>
+        <input id="totalCharge" class="form-control" formControlName="portfolioCharge" required type="number">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</ng-template>

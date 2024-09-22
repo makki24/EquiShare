@@ -4,31 +4,17 @@
   <div class="row h-100">
     <!-- Portfolio List on the Left -->
     <div class="col-md-6 h-100 d-flex flex-column">
-      <div>
-        <button class="btn btn-primary mb-3" (click)="addPortfolio()">Add Portfolio</button>
-      </div>
-      <div class="scrollable-list">
-        <div *ngFor="let portfolio of portfolios" class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title">{{ portfolio.name }}</h5>
-            <p class="card-text">Total Value: ₹{{ portfolio.totalValue | number:'1.2-2' }}</p>
-          </div>
-        </div>
-      </div>
+      <app-portfolio></app-portfolio>
     </div>
 
     <!-- User List on the Right -->
-    <div class="col-md-6  h-100 d-flex flex-column">
-      <button class="btn btn-primary mb-3" (click)="addUser()">Add User</button>
-      <div class="scrollable-list">
-        <div *ngFor="let user of users" class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title">{{ user.displayName }}</h5>
-            <p class="card-text">Username: {{ user.username }}</p>
-            <p class="card-text">Current Amount: ₹{{ user.currentAmount | number:'1.2-2' }}</p>
-          </div>
-        </div>
-      </div>
+    <div class="col-md-6 h-100 d-flex flex-column">
+      <app-users></app-users>
     </div>
   </div>
 </div>
+
+<!-- Portfolio Modal -->
+
+<!-- User Modal -->
+
