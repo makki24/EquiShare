@@ -18,6 +18,7 @@
     "@angular/platform-browser": "^18.2.5",
     "@angular/platform-browser-dynamic": "^18.2.5",
     "@angular/router": "^18.2.5",
+    "@ng-select/ng-select": "^13.8.2",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "ngx-bootstrap": "^18.0.2",

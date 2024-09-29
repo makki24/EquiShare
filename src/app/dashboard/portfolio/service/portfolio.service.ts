@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {BASE_API_URL} from "../../../../constants/api.constants";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Portfolio} from "../portfolio.model";
+import {Portfolio} from "../../../shared/portfolio/portfolio.model";
 
 @Injectable()
 export class PortfolioService {
@@ -18,8 +18,8 @@ export class PortfolioService {
     return this.http.post<Portfolio>(`${this.baseUrl}/portfolios/create`, portfolio)
   }
 
-  deletePortfolio(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/portfolios/${id}`);
+  deletePortfolio(id: number): Observable<string> {
+    return this.http.delete<string>(`${this.baseUrl}/portfolios/${id}/liquidate`);
   }
 
 }

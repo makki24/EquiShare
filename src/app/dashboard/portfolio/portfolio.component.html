@@ -6,7 +6,8 @@
   <div *ngFor="let portfolio of portfolios" class="card mb-3">
     <div class="card-body" (click)="navigateToPortfolioDetails(portfolio.id)">
       <h5 class="card-title">{{ portfolio.displayName }}</h5>
-      <p class="card-text">Total Value: ₹{{ portfolio.portfolioCharge | number:'1.2-2' }}</p>
+      <p class="card-text">Total Charge: ₹{{ portfolio.portfolioCharge | number:'1.2-2' }}</p>
+      <p class="card-text">Total Value: ₹{{ portfolio.totalValue | number:'1.2-2' }}</p>
     </div>
     <div class="card-footer">
       <button class="btn btn-danger" (click)="openDeleteModal(deleteModal, portfolio)">Delete</button>
@@ -18,7 +19,6 @@
   <div class="modal-header">
     <h4 class="modal-title">Add Portfolio</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
@@ -31,6 +31,10 @@
         <label for="totalCharge">Total charge</label>
         <input id="totalCharge" class="form-control" formControlName="portfolioCharge" required type="number">
       </div>
+      <!-- Error message -->
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+        {{ errorMessage }}
+      </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
@@ -40,11 +44,14 @@
   <div class="modal-header">
     <h4 class="modal-title">Confirm Delete</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <p>Are you sure you want to delete {{ selectedPortfolio?.displayName }}?</p>
+  </div>
+  <!-- Error message -->
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+    {{ errorMessage }}
   </div>
   <div class="modal-footer">
     <button class="btn btn-secondary" (click)="modalRef.hide()">Cancel</button>

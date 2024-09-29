@@ -5,11 +5,14 @@ import { takeUntil } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PortfolioService } from './service/portfolio.service';
-import { Portfolio } from './portfolio.model';
+import { Portfolio } from '../../shared/portfolio/portfolio.model';
 
 interface PortfolioForm {
   displayName: FormControl<string>;
   portfolioCharge: FormControl<number>;
+  userPortfolioResponses: FormControl<null>;
+  shares: FormControl<null>;
+  totalValue: FormControl<number>
 }
 
 @Component({
@@ -24,6 +27,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   portfolios: Portfolio[] = [];
   portfolioForm: FormGroup<PortfolioForm>;
   selectedPortfolio: Portfolio | null = null;
+  errorMessage: string | null = null; // To hold any error messages
 
   constructor(
     private modalService: BsModalService,
@@ -34,6 +38,9 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     this.portfolioForm = this.fb.group({
       displayName: ['', Validators.required],
       portfolioCharge: [0, Validators.required],
+      shares: [null],
+      userPortfolioResponses: [null],
+      totalValue: [0]
     });
   }
 
@@ -42,16 +49,21 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       next: (response) => {
         this.portfolios = response;
       },
+      error: (error) => {
+        this.errorMessage = 'Failed to load portfolios';
+      },
     });
   }
 
   openPortfolioModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+    this.errorMessage = null; // Clear any previous error messages
   }
 
   openDeleteModal(template: TemplateRef<any>, portfolio: Portfolio) {
-    this.selectedPortfolio = portfolio; // Store the selected portfolio to delete
+    this.selectedPortfolio = portfolio;
     this.modalRef = this.modalService.show(template);
+    this.errorMessage = null; // Clear any previous error messages
   }
 
   onSubmitPortfolio() {
@@ -61,6 +73,10 @@ export class PortfolioComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.portfolios.push(response);
           this.modalRef?.hide();
+          this.errorMessage = null; // Clear any error on success
+        },
+        error: (error) => {
+          this.errorMessage = error.getMessage();
         },
       });
     }
@@ -72,14 +88,17 @@ export class PortfolioComponent implements OnInit, OnDestroy {
         next: () => {
           this.portfolios = this.portfolios.filter(p => p.id !== this.selectedPortfolio?.id);
           this.modalRef?.hide();
-          this.selectedPortfolio = null;
+          this.errorMessage = null; // Clear any error on success
+        },
+        error: (error) => {
+          this.errorMessage = error.message
         },
       });
     }
   }
 
   navigateToPortfolioDetails(portfolioId: number) {
-    this.router.navigate(['/portfolio', portfolioId]); // Navigate to the portfolio details page
+    this.router.navigate(['/portfolio', portfolioId]);
   }
 
   ngOnDestroy() {

@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpResponse} from "@angular/common/http";
 import {Observable, Subject, tap} from "rxjs";
 import {BASE_API_URL} from "../../../constants/api.constants";
-import {User} from "../../dashboard/users/user.model";
+
+import {User} from "../../shared/users/user.model";
 
 @Injectable({
   providedIn: 'root'

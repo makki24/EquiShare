@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {BASE_API_URL} from "../../../../constants/api.constants";
-import {User} from "../user.model";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
+import {User} from "../../../shared/users/user.model";
 
 @Injectable()
 export class UsersService {
@@ -11,6 +11,10 @@ export class UsersService {
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.baseUrl}/users/list`)
+  }
+
+  deleteUser(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/users/${id}`);
   }
 
   createUser(user: User): Observable<User> {
