@@ -12,6 +12,7 @@ import {
 import {UsersService} from "../../shared/users/user.service";
 
 import {User} from "../../shared/users/user.model";
+import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 
 @Component({
   selector: 'app-portfolio-details',
@@ -34,9 +35,11 @@ export class PortfolioDetailsComponent implements OnInit, OnDestroy {
   selectedStock;
   user$ = new Subject<string>();
   loading = false;
+  modalRef?: BsModalRef;
 
   constructor(private portfolioService: DetailService,
               private userService: UsersService,
+              private modalService: BsModalService,
               private route: ActivatedRoute) {
   }
 
@@ -124,7 +127,18 @@ export class PortfolioDetailsComponent implements OnInit, OnDestroy {
       },
     });
   }
+  selectedShare: ShareTransactions;
+  sellQuantity
 
+  openShareModal(share, template) {
+    this.selectedShare = share;
+    this.sellQuantity = this.selectedShare.qty;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  sellShares() {
+
+  }
 
   ngOnDestroy() {
     this.destroy$.next();

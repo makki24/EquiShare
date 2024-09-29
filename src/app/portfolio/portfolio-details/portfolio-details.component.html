@@ -9,12 +9,12 @@
   <div class="col-md-6">
     <div class="d-flex">
       <h4>Shares</h4>
-      <span class="ms-2">{{portfolio?.totalShareValue | number: '1.2-2'}}</span>
+      <span class="ms-2">{{ portfolio?.totalShareValue | number: '1.2-2' }}</span>
     </div>
 
     <ul class="list-group">
       @for (share of shares; track share.id) {
-        <li class="list-group-item">
+        <li class="list-group-item" (click)="openShareModal(share, sellModifyModal)">
           <div class="d-flex justify-content-between">
             <div>
               <strong>{{ share.displayName }}</strong>
@@ -91,3 +91,38 @@
   </div>
 </div>
 
+<ng-template #sellModifyModal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="shareModalLabel">Update Share Price & Sell</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="mb-3">
+          <div class="input-group mb-3">
+            <input type="text" [(ngModel)]="selectedShare.currentPrice" class="form-control" aria-label="Text input with segmented dropdown button">
+            <button type="button" class="btn btn-outline-secondary">Update Price</button>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="sellQuantity" class="form-label">Sell Quantity</label>
+          <input
+            type="number"
+            class="form-control"
+            id="sellQuantity"
+            [max]="selectedShare.qty"
+            [min]="1"
+            [(ngModel)]="sellQuantity"
+            name="sellQuantity"
+            placeholder="Quantity to Sell"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-primary" (click)="sellShares()">Sell</button>
+    </div>
+  </div>
+</ng-template>
