@@ -3,58 +3,16 @@
     {{ errorMessage }}
   </div>
 }
-
+<div class="d-flex align-items-center">
+  <h3>{{portfolio?.portfolio.displayName}}</h3>
+  <span class="ms-2">Remainging cash: <strong>{{portfolio?.portfolio.totalValue | number: '1.2-2'}}</strong></span>
+  <span class="ms-2">Per user charge: <strong>{{portfolio?.portfolio.portfolioCharge | number: '1.2-2'}}</strong></span>
+</div>
 <div class="row">
   <!-- Left Column: Shares Details -->
-  <div class="col-md-6">
-    <div class="d-flex">
-      <h4>Shares</h4>
-      <span class="ms-2">{{ portfolio?.totalShareValue | number: '1.2-2' }}</span>
-    </div>
-
-    <ul class="list-group">
-      @for (share of shares; track share.id) {
-        <li class="list-group-item" (click)="openShareModal(share, sellModifyModal)">
-          <div class="d-flex justify-content-between">
-            <div>
-              <strong>{{ share.displayName }}</strong>
-              <p>Shares: {{ share.qty }}</p>
-            </div>
-            <div>
-              <strong>{{share.currentPrice}}</strong>
-              <span [ngClass]="{
-                  'text-success': share.percentageChange >= 0,
-                  'text-danger': share.percentageChange < 0
-                }">
-                ({{ share.percentageChange | number: '1.2-2' }}%)
-              </span>
-              <p>{{share.buyingPrice}}</p>
-            </div>
-          </div>
-        </li>
-      }
-    </ul>
-    <div class="mt-3">
-      <ng-select
-        [items]="stockResults"
-        bindLabel="commonName"
-        [minTermLength]="3"
-        placeholder="Search for stock"
-        [searchable]="true"
-        [typeahead]="user$"
-        [loading]="loading"
-        [(ngModel)]="selectedStock">
-        <ng-template ng-option-tmp let-item="item">
-          <div>
-            <strong>{{ item.commonName }}</strong> ({{ item.exchangeCodeBse }})
-          </div>
-        </ng-template>
-      </ng-select>
-      <input [(ngModel)]="shareAmount" type="number" class="form-control mt-2" placeholder="Amount" />
-      <input [(ngModel)]="quantity" type="number" class="form-control mt-2" placeholder="Qty" />
-      <button class="btn btn-primary mt-2" (click)="buyShares()">Buy Shares</button>
-    </div>
-  </div>
+  <app-share-details class="col-md-6"
+                     [totalShareValue]="portfolio.totalShareValue"
+                     [portfolioId]="portfolioId" [shares]="shares" (loadPortfolioDetailsEvent)="loadPortfolioDetails()"></app-share-details>
 
   <!-- Right Column: User Contributions -->
   <div class="col-md-6">
@@ -91,38 +49,4 @@
   </div>
 </div>
 
-<ng-template #sellModifyModal>
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="shareModalLabel">Update Share Price & Sell</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    </div>
-    <div class="modal-body">
-      <div>
-        <div class="mb-3">
-          <div class="input-group mb-3">
-            <input type="text" [(ngModel)]="selectedShare.currentPrice" class="form-control" aria-label="Text input with segmented dropdown button">
-            <button type="button" class="btn btn-outline-secondary">Update Price</button>
-          </div>
-        </div>
-        <div class="mb-3">
-          <label for="sellQuantity" class="form-label">Sell Quantity</label>
-          <input
-            type="number"
-            class="form-control"
-            id="sellQuantity"
-            [max]="selectedShare.qty"
-            [min]="1"
-            [(ngModel)]="sellQuantity"
-            name="sellQuantity"
-            placeholder="Quantity to Sell"
-          />
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      <button type="button" class="btn btn-primary" (click)="sellShares()">Sell</button>
-    </div>
-  </div>
-</ng-template>
+

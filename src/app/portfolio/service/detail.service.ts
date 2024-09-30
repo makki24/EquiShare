@@ -15,13 +15,13 @@ export class DetailService{
     return this.http.get<PortfolioDetailResponse>(`${this.baseUrl}/portfolios/${id}`);
   }
 
-  searchShares(query: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/shares/search?query=${query}`);
-  }
+
 
   buyShares(portfolioId: number, shareAmount: number, qty: number, displayName: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/portfolios/${portfolioId}/shares/buy`, {}, {params: { buyingPrice: shareAmount, qty, displayName }});
   }
+
+
 
   addUserToPortfolio(portfolioId: number, userId: number, contributionAmount: number): Observable<any> {
     return this.http.post(`${this.baseUrl}/portfolios/${portfolioId}/user/add-user`, {}, {params: {

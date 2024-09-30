@@ -26,20 +26,12 @@ export class PortfolioDetailsComponent implements OnInit, OnDestroy {
   errorMessage: string | null = null; // To hold any error messages
   shares: ShareTransactions[] = [];
   userPortfolios: UserPortfolioResponse[] = [];
-  shareAmount: number;
-  quantity: number;
   contributionAmount: number;
   users: User[]
   selectedUser: number;
-  public stockResults: any[] = [];
-  selectedStock;
-  user$ = new Subject<string>();
-  loading = false;
-  modalRef?: BsModalRef;
 
   constructor(private portfolioService: DetailService,
               private userService: UsersService,
-              private modalService: BsModalService,
               private route: ActivatedRoute) {
   }
 
@@ -47,21 +39,8 @@ export class PortfolioDetailsComponent implements OnInit, OnDestroy {
     this.portfolioId = +this.route.snapshot.paramMap.get('id');
     this.loadPortfolioDetails();
     this.fetchUsers();
-    this.loadShares();
   }
 
-  private loadShares() {
-    this.user$
-      .pipe(
-        tap(() => this.loading = true),
-        debounceTime(300),  // Wait for user to stop typing
-        switchMap((query) => this.portfolioService.searchShares(query)) // Call the search service
-      )
-      .subscribe((data) => {
-        this.stockResults = data; // Update the dropdown results
-        this.loading = false;
-      });
-  }
 
   fetchUsers(): void {
     this.userService.getUsers().subscribe({
@@ -105,18 +84,6 @@ export class PortfolioDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  buyShares() {
-    this.portfolioService.buyShares(this.portfolioId, this.shareAmount, this.quantity, this.selectedStock.commonName).subscribe({
-      next: () => {
-        this.loadPortfolioDetails();
-      },
-      error: (err) => {
-        console.log("err", err)
-        this.errorMessage = err.error;
-      },
-    });
-  }
-
   addUserToPortfolio() {
     this.portfolioService.addUserToPortfolio(this.portfolioId, this.selectedUser, this.contributionAmount).subscribe({
       next: () => {
@@ -126,18 +93,6 @@ export class PortfolioDetailsComponent implements OnInit, OnDestroy {
         this.errorMessage = err.error;
       },
     });
-  }
-  selectedShare: ShareTransactions;
-  sellQuantity
-
-  openShareModal(share, template) {
-    this.selectedShare = share;
-    this.sellQuantity = this.selectedShare.qty;
-    this.modalRef = this.modalService.show(template);
-  }
-
-  sellShares() {
-
   }
 
   ngOnDestroy() {
