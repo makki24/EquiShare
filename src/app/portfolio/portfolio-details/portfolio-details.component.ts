@@ -30,6 +30,8 @@ export class PortfolioDetailsComponent implements OnInit, OnDestroy {
   contributionAmount: number;
   users: User[]
   selectedUser: number;
+  amountToWithdraw: number;
+  selectedUsertoWithdraw: number;
 
   constructor(private portfolioService: DetailService,
               private userService: UsersService,
@@ -101,9 +103,27 @@ export class PortfolioDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  openwithDrawAmountModal(template, selectedUser: UserPortfolioResponse) {
+    this.selectedUsertoWithdraw = selectedUser.id;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  withDrawAmount() {
+    this.portfolioService.withDrawAmount(this.portfolioId, this.selectedUsertoWithdraw, this.amountToWithdraw).subscribe({
+      next: () => {
+        this.loadPortfolioDetails();
+        this.modalRef.hide();
+      },
+      error: (err) => {
+        this.errorMessage = err.error;
+      },
+    });
+  }
+
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
+  protected readonly self = self;
 }

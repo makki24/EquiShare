@@ -30,6 +30,13 @@ export class DetailService{
       }});
   }
 
+  withDrawAmount(portfolioId: number, userId: number, amountToWithdraw: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/portfolios/${portfolioId}/user/withdraw-amount`, {}, {params: {
+        userId,
+        amountToWithdraw: amountToWithdraw,
+      }});
+  }
+
   deleteUserFromPortfolio(portfolioId: number, userId: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/portfolios/${portfolioId}/user/delete-user/${userId}`);
   }
