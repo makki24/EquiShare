@@ -3,15 +3,18 @@
     {{ errorMessage }}
   </div>
 }
-<div class="d-flex align-items-center">
-  <h3>{{portfolio?.portfolio.displayName}}</h3>
-  <span class="ms-2">Remainging cash: <strong>{{portfolio?.portfolio.totalValue | number: '1.2-2'}}</strong></span>
-  <span class="ms-2">Per user charge: <strong>{{portfolio?.portfolio.portfolioCharge | number: '1.2-2'}}</strong></span>
+<div class="d-flex align-items-center w-50 justify-content-between">
+  <div class="d-flex align-items-center">
+    <h3>{{portfolio?.portfolio.displayName}}</h3>
+    <span class="ms-2">Remainging cash: <strong>{{portfolio?.portfolio.totalValue | number: '1.2-2'}}</strong></span>
+    <span class="ms-2">Per user charge: <strong>{{portfolio?.portfolio.portfolioCharge | number: '1.2-2'}}</strong></span>
+  </div>
+  <button (click)="openPortfolioEdit(portfolioModal)"  class="btn btn-primary"><i class="bi bi-pencil"></i></button>
 </div>
 <div class="row">
   <!-- Left Column: Shares Details -->
   <app-share-details class="col-md-6"
-                     [totalShareValue]="portfolio.totalShareValue"
+                     [totalShareValue]="portfolio?.totalShareValue"
                      [portfolioId]="portfolioId" [shares]="shares" (loadPortfolioDetailsEvent)="loadPortfolioDetails()"></app-share-details>
 
   <!-- Right Column: User Contributions -->
@@ -50,3 +53,6 @@
 </div>
 
 
+<ng-template #portfolioModal>
+  <app-add-portfolio [portfolio]="portfolio.portfolio" (closeModal)="modalRef.hide()" (onSuccess)="loadPortfolioDetails()" ></app-add-portfolio>
+</ng-template>

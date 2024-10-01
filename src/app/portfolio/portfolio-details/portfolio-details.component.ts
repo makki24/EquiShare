@@ -21,6 +21,7 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 })
 export class PortfolioDetailsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
+  modalRef?: BsModalRef;
   portfolio: PortfolioDetailResponse
   portfolioId: number;
   errorMessage: string | null = null; // To hold any error messages
@@ -32,6 +33,7 @@ export class PortfolioDetailsComponent implements OnInit, OnDestroy {
 
   constructor(private portfolioService: DetailService,
               private userService: UsersService,
+              private modalService: BsModalService,
               private route: ActivatedRoute) {
   }
 
@@ -82,6 +84,10 @@ export class PortfolioDetailsComponent implements OnInit, OnDestroy {
         this.errorMessage = err.error;
       },
     });
+  }
+
+  openPortfolioEdit(template) {
+    this.modalRef = this.modalService.show(template);
   }
 
   addUserToPortfolio() {
