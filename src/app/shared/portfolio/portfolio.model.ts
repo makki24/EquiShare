@@ -3,8 +3,6 @@ export interface Portfolio {
   displayName: string;
   portfolioCharge: number;
   totalValue: number;
-  shares: any[],
-  userPortfolioResponses: any[]
 }
 
 export interface PortfolioDetailResponse {

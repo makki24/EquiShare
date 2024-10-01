@@ -66,20 +66,9 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     this.errorMessage = null; // Clear any previous error messages
   }
 
-  onSubmitPortfolio() {
-    if (this.portfolioForm.valid) {
-      const newPortfolio = this.portfolioForm.getRawValue();
-      this.portfolioService.createPortfolios(newPortfolio).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (response) => {
-          this.portfolios.push(response);
-          this.modalRef?.hide();
-          this.errorMessage = null; // Clear any error on success
-        },
-        error: (error) => {
-          this.errorMessage = error.getMessage();
-        },
-      });
-    }
+  onSubmitPortfolio(response) {
+    this.portfolios.push(response);
+    this.modalRef?.hide();
   }
 
   onDeletePortfolio() {

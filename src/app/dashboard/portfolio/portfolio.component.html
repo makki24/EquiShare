@@ -16,28 +16,7 @@
 </div>
 
 <ng-template #portfolioModal>
-  <div class="modal-header">
-    <h4 class="modal-title">Add Portfolio</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.hide()">
-    </button>
-  </div>
-  <div class="modal-body">
-    <form [formGroup]="portfolioForm" (ngSubmit)="onSubmitPortfolio()">
-      <div class="form-group">
-        <label for="portfolioName">Portfolio Name</label>
-        <input id="portfolioName" class="form-control" formControlName="displayName" required>
-      </div>
-      <div class="form-group">
-        <label for="totalCharge">Total charge</label>
-        <input id="totalCharge" class="form-control" formControlName="portfolioCharge" required type="number">
-      </div>
-      <!-- Error message -->
-      <div *ngIf="errorMessage" class="alert alert-danger mt-3">
-        {{ errorMessage }}
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-  </div>
+  <app-add-portfolio (closeModal)="modalRef.hide()" (onSuccess)="onSubmitPortfolio($event)" ></app-add-portfolio>
 </ng-template>
 
 <ng-template #deleteModal>
