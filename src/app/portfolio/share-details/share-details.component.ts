@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {Subject, tap} from "rxjs";
+import {catchError, of, Subject, tap} from "rxjs";
 import {debounceTime, switchMap, takeUntil} from "rxjs/operators";
 import {SharesService} from "../service/shares.service";
 import {ShareTransactions} from "../../shared/portfolio/portfolio.model";
@@ -44,7 +44,13 @@ export class ShareDetailsComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         tap(() => this.loading = true),
         debounceTime(300),  // Wait for user to stop typing
-        switchMap((query) => this.sharesService.searchShares(query)) // Call the search service
+        switchMap((query) =>
+          this.sharesService.searchShares(query)
+            .pipe(
+              catchError(e => of([]))
+            )
+        ), // Call the search service
+
       )
       .subscribe((data) => {
         this.stockResults = data; // Update the dropdown results

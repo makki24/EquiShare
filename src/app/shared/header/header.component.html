@@ -2,10 +2,10 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="#">FakePortfolios</a>
 
-    <div class="collapse navbar-collapse justify-content-end" *ngIf="isAuthenticated">
+    <div class="collapse navbar-collapse justify-content-end">
       <ul class="navbar-nav ml-auto">
         <!-- Display Username -->
-        <li class="nav-item">
+        <li class="nav-item"  *ngIf="isAuthenticated">
           <a class="nav-link" href="#">Welcome, {{ username }}</a>
         </li>
         <!-- Logout Button -->

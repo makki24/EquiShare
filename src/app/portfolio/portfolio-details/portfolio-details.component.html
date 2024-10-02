@@ -34,7 +34,7 @@
             {{ userPortfolio.contributionPercentage | number: '1.2-2' }}%
           </div>
         </div>
-        <button class="btn btn-danger" (click)="confirmDelete(userPortfolio.id)">Remove</button>
+        <button class="btn btn-danger" (click)="confirmDelete(userPortfolio.id);$event.stopPropagation()">Remove</button>
       </div>
     }
     <div class="mt-3">
