@@ -32,6 +32,7 @@ export class PortfolioDetailsComponent implements OnInit, OnDestroy {
   selectedUser: number;
   amountToWithdraw: number;
   selectedUsertoWithdraw: number;
+  totalValue;
 
   constructor(private portfolioService: DetailService,
               private userService: UsersService,
@@ -70,6 +71,7 @@ export class PortfolioDetailsComponent implements OnInit, OnDestroy {
         });
         this.portfolio = response;
         this.userPortfolios = response.userPortfolioResponses;
+        this.totalValue = response.totalShareValue + response.portfolio.totalValue
       },
       error: (error) => {
         this.errorMessage = error.error;

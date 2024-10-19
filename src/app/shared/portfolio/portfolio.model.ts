@@ -12,6 +12,10 @@ export interface PortfolioDetailResponse {
   totalShareValue: number
 }
 
+export interface ShareSearch {
+  commonName: string;
+}
+
 export interface ShareTransactions {
   "id": number,
   "displayName": string,
@@ -27,4 +31,5 @@ export interface UserPortfolioResponse {
   displayName: string
   id: number; //user id
   currentValue: number;
+  savedCurrentValue: number;
 }

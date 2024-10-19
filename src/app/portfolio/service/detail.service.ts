@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {Portfolio, PortfolioDetailResponse} from "../../shared/portfolio/portfolio.model";
 
 import {User} from "../../shared/users/user.model";
+import {PortfolioTransaction, UserTransaction} from "../model";
 
 @Injectable()
 export class DetailService{
@@ -16,9 +17,17 @@ export class DetailService{
   }
 
 
+  getTransactions(id: number, ): Observable<PortfolioTransaction[]> {
+    return this.http.get<PortfolioTransaction[]>(`${this.baseUrl}/transaction/${id}/portfoliotransactions`);
+  }
 
-  buyShares(portfolioId: number, shareAmount: number, qty: number, displayName: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/portfolios/${portfolioId}/shares/buy`, {}, {params: { buyingPrice: shareAmount, qty, displayName }});
+  getUserTransactions(id: number, userId: number): Observable<UserTransaction[]> {
+    return this.http.get<UserTransaction[]>(`${this.baseUrl}/transaction/${id}/usertransactions`, {params: {userId}});
+  }
+
+  buyShares(portfolioId: number, shareAmount: number, qty: number, displayName: string, charges: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/portfolios/${portfolioId}/shares/buy`, {},
+      {params: { buyingPrice: shareAmount, qty, displayName, charges }});
   }
 
 

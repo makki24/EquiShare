@@ -6,10 +6,14 @@
 <div class="d-flex align-items-center w-50 justify-content-between">
   <div class="d-flex align-items-center">
     <h3>{{portfolio?.portfolio.displayName}}</h3>
+    <span class="ms-2">Total value: <strong>{{totalValue | number: '1.2-2'}}</strong></span>
     <span class="ms-2">Remainging cash: <strong>{{portfolio?.portfolio.totalValue | number: '1.2-2'}}</strong></span>
     <span class="ms-2">Per user charge: <strong>{{portfolio?.portfolio.portfolioCharge | number: '1.2-2'}}</strong></span>
   </div>
-  <button (click)="openPortfolioEdit(portfolioModal)"  class="btn btn-primary"><i class="bi bi-pencil"></i></button>
+  <div class="d-flex">
+    <a href="#" class="link-primary" [routerLink]="['./portfoliotransactions']">All Transactions</a>
+    <button (click)="openPortfolioEdit(portfolioModal)"  class="btn btn-primary ms-2"><i class="bi bi-pencil"></i></button>
+  </div>
 </div>
 <div class="row">
   <!-- Left Column: Shares Details -->
@@ -22,7 +26,10 @@
     <h4>User Contributions</h4>
     @for (userPortfolio of userPortfolios; track userPortfolio.username) {
       <div class="mt-4" type="button" (click)="openwithDrawAmountModal(withDrawModal, userPortfolio)">
-        <label>{{ userPortfolio.username }} ({{userPortfolio.currentValue | number:'1.2-2'}})</label>
+        <div class="d-flex justify-content-between">
+          <label>{{ userPortfolio.username }} ({{userPortfolio.currentValue | number:'1.2-2'}}) ({{userPortfolio.savedCurrentValue | number:'1.2-2'}})</label>
+          <a href="#" class="link-primary" [routerLink]="['./usertransactions', userPortfolio.id]">Transactions</a>
+        </div>
         <div class="progress mb-2">
           <div
             class="progress-bar"

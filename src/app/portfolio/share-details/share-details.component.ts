@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {catchError, of, Subject, tap} from "rxjs";
 import {debounceTime, switchMap, takeUntil} from "rxjs/operators";
 import {SharesService} from "../service/shares.service";
-import {ShareTransactions} from "../../shared/portfolio/portfolio.model";
+import {ShareSearch, ShareTransactions} from "../../shared/portfolio/portfolio.model";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {DetailService} from "../service/detail.service";
 
@@ -16,7 +16,7 @@ export class ShareDetailsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
   public stockResults: any[] = [];
-  selectedStock;
+  selectedStock: ShareSearch = {} as ShareSearch;
   user$ = new Subject<string>();
   loading = false;
   selectedShare: ShareTransactions;
@@ -25,6 +25,8 @@ export class ShareDetailsComponent implements OnInit, OnDestroy {
   shareAmount: number;
   quantity: number;
   errorMessage: string | null = null; // To hold any error messages
+  isSelect
+  charges: number;
 
   @Input() shares: ShareTransactions[] = [];
   @Input() totalShareValue: number;
@@ -36,6 +38,10 @@ export class ShareDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadShares();
+  }
+
+  public toggle() {
+    this.isSelect = !this.isSelect;
   }
 
   private loadShares() {
@@ -65,9 +71,23 @@ export class ShareDetailsComponent implements OnInit, OnDestroy {
   buyShares() {
     if (!this.shareAmount || !this.quantity || !this.selectedStock.commonName)
       return
-    this.portFolioService.buyShares(this.portfolioId, this.shareAmount, this.quantity, this.selectedStock.commonName).subscribe({
+    this.portFolioService.buyShares(this.portfolioId, this.shareAmount, this.quantity, this.selectedStock.commonName, this.charges).subscribe({
       next: () => {
         this.loadPortfolioDetails();
+      },
+      error: (err) => {
+        this.errorMessage = err.error;
+      },
+    });
+  }
+
+  updateShares( shareId, price, qty) {
+    if (!price || !qty )
+      return
+    this.sharesService.updateShareQty(this.portfolioId, shareId, price, qty).subscribe({
+      next: () => {
+        this.loadPortfolioDetails();
+        this.modalRef.hide();
       },
       error: (err) => {
         this.errorMessage = err.error;
@@ -78,7 +98,9 @@ export class ShareDetailsComponent implements OnInit, OnDestroy {
   sellShares(portfolioId, shareId, sellprice, sellqty) {
     if (!sellprice || !sellqty )
       return
-    this.sharesService.sellShares(portfolioId, shareId, sellprice, sellqty).subscribe({
+    if (!this.charges)
+      this.charges = 0;
+    this.sharesService.sellShares(portfolioId, shareId, sellprice, sellqty, this.charges).subscribe({
       next: () => {
         this.loadPortfolioDetails();
         this.modalRef.hide();
@@ -100,6 +122,12 @@ export class ShareDetailsComponent implements OnInit, OnDestroy {
     })
   }
 
+  openModifyOrderModal(share, template) {
+    this.selectedShare = share;
+    this.sellQuantity = this.selectedShare.qty
+    this.modalRef = this.modalService.show(template);
+
+  }
 
 
   openShareModal(share, template) {

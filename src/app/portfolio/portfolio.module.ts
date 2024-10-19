@@ -8,10 +8,13 @@ import {NgSelectModule} from "@ng-select/ng-select";
 import {UsersService} from "../shared/users/user.service";
 import {ShareDetailsComponent} from "./share-details/share-details.component";
 import {PortfolioModule as AddPortfolioModule} from "../shared/portfolio/portfolio.module";
+import {PortfolioTransactionsComponent} from "./portfolio-transactions/portfolio-transactions.component";
+import {DatetimePipe} from "../shared/pipe/datetime.pipe";
+import {UserTransactionsComponent} from "./user-transactions/user-transactions.component";
 
 @NgModule({
-  declarations: [PortfolioDetailsComponent, ShareDetailsComponent],
-  imports: [PortfolioRoutingModule, FormsModule, DecimalPipe, NgSelectModule, NgClass, AddPortfolioModule],
+  declarations: [PortfolioDetailsComponent, ShareDetailsComponent, PortfolioTransactionsComponent, UserTransactionsComponent],
+    imports: [PortfolioRoutingModule, FormsModule, DecimalPipe, NgSelectModule, NgClass, AddPortfolioModule, DatetimePipe],
   providers: [DetailService, UsersService]
 })
 export class PortfolioModule { }
