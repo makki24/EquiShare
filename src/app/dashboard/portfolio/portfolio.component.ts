@@ -44,7 +44,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
+  getPortfolios() {
     this.portfolioService.getPortfolios().pipe(takeUntil(this.destroy$)).subscribe({
       next: (response) => {
         this.portfolios = response;
@@ -53,6 +53,10 @@ export class PortfolioComponent implements OnInit, OnDestroy {
         this.errorMessage = 'Failed to load portfolios';
       },
     });
+  }
+
+  ngOnInit() {
+    this.getPortfolios();
   }
 
   openPortfolioModal(template: TemplateRef<any>) {
@@ -69,6 +73,19 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   onSubmitPortfolio(response) {
     this.portfolios.push(response);
     this.modalRef?.hide();
+  }
+
+  clone(id: number) {
+    this.portfolioService.clonePortfolio(id).pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
+        this.modalRef?.hide();
+        this.getPortfolios();
+        this.errorMessage = null; // Clear any error on success
+      },
+      error: (error) => {
+        this.errorMessage = error.message
+      },
+    });
   }
 
   onDeletePortfolio() {

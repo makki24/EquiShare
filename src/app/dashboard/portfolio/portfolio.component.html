@@ -10,6 +10,7 @@
       <p class="card-text">Total Value: ₹{{ portfolio.totalValue | number:'1.2-2' }}</p>
     </div>
     <div class="card-footer">
+      <button class="btn btn-primay" (click)="clone(portfolio.id)">Clone</button>
       <button class="btn btn-danger" (click)="openDeleteModal(deleteModal, portfolio)">Delete</button>
     </div>
   </div>

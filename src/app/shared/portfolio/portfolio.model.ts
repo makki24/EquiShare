@@ -32,4 +32,5 @@ export interface UserPortfolioResponse {
   id: number; //user id
   currentValue: number;
   savedCurrentValue: number;
+  addedAmount: number;
 }

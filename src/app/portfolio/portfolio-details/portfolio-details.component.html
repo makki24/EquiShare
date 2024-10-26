@@ -27,7 +27,11 @@
     @for (userPortfolio of userPortfolios; track userPortfolio.username) {
       <div class="mt-4" type="button" (click)="openwithDrawAmountModal(withDrawModal, userPortfolio)">
         <div class="d-flex justify-content-between">
-          <label>{{ userPortfolio.username }} ({{userPortfolio.currentValue | number:'1.2-2'}}) ({{userPortfolio.savedCurrentValue | number:'1.2-2'}})</label>
+          <label>{{ userPortfolio.username }}
+            <strong>Current </strong>({{userPortfolio.currentValue | number:'1.2-2'}})
+            ({{userPortfolio.savedCurrentValue | number:'1.2-2'}})
+            ({{userPortfolio.addedAmount | number:'1.2-2'}})
+          </label>
           <a href="#" class="link-primary" [routerLink]="['./usertransactions', userPortfolio.id]">Transactions</a>
         </div>
         <div class="progress mb-2">

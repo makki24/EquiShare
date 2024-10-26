@@ -22,4 +22,9 @@ export class PortfolioService {
     return this.http.delete<string>(`${this.baseUrl}/portfolios/${id}/liquidate`);
   }
 
+  clonePortfolio(id: number): Observable<Portfolio> {
+    return this.http.post<Portfolio>(`${this.baseUrl}/portfolios/${id}/clone-portfolio`, {});
+  }
+
+
 }

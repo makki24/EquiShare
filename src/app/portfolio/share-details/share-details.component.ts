@@ -69,6 +69,8 @@ export class ShareDetailsComponent implements OnInit, OnDestroy {
   }
 
   buyShares() {
+    if (!this.charges)
+      this.charges = 0;
     if (!this.shareAmount || !this.quantity || !this.selectedStock.commonName)
       return
     this.portFolioService.buyShares(this.portfolioId, this.shareAmount, this.quantity, this.selectedStock.commonName, this.charges).subscribe({
